@@ -16,7 +16,7 @@ def get_all_metrics():
     return jsonable_encoder(get_metrics())
 
 @app.get("/listAllContainers", tags=["Metric docker"])
-def get_docker_containers():
+def get_list_containers():
     return jsonable_encoder(container)
 
 @app.post("/metricPerContainer", tags=["Metric docker"])
