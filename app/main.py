@@ -6,8 +6,8 @@ from fastapi.encoders import jsonable_encoder
 container = get_docker_containers()
 
 app = FastAPI(
-        title="EventGenerationTest API",
-        description="API desenvolvida para envio de eventos e consumo de notificações do EventHandler.",
+        title="Docker Monitoring API",
+        description="docker monitoring api",
         version="1.0.0"
         )
       
