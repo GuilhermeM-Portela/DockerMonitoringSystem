@@ -109,13 +109,13 @@ def convert_size(size_bytes):
    return "%s %s" % (s, size_name[i])
 
 def calculate_cpu_total():
-    cpu_total = psutil.cpu_percent()
+    cpu_total = str(psutil.cpu_percent()) + "%"
     return cpu_total
 
 def calculate_memory_total():
-    mem_total = psutil.virtual_memory()[2]
+    mem_total = str(psutil.virtual_memory()[2]) + "%"
     return mem_total
 
 def calculate_disco_total():
-    disk_total = psutil.disk_usage('/')[3]
+    disk_total = str(psutil.disk_usage('/')[3]) + "%"
     return disk_total
