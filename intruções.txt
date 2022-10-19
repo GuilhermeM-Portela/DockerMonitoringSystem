@@ -1,0 +1,5 @@
+celery -A core beat -l info
+
+celery -A core worker -l info
+
+python manage.py runserver
