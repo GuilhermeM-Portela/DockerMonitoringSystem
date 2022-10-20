@@ -38,6 +38,14 @@
 
 
 {% block 'body' %}
+<nav class="navbar navbar-expand-lg container-fluid navbar-transparent ">
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <h2 class="card-title">SMC</h2>
+        </div>
+    </div>
+    <button type="button" class="btn btn-dark">Report</button>
+</nav>
 <div class="row-10">
     <div class="col">
         <div class="row">
@@ -50,22 +58,18 @@
                                 <h3 class="card-title"><i class="tim-icons icon-components"></i>CPU</h3>
                             </div>
                             <div class="card-header">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-link dropdown-toggle btn-icon"
-                                        data-toggle="dropdown">
-                                        <i class="tim-icons icon-settings-gear-63"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-item" data-value="1">CPU</div>
-                                        <div class="dropdown-item" data-value="0">MEM</div>
-                                    </div>
+                                <div class="ui selection dropdown" id="div--all-container">
+                                    <select class="btn btn-link dropdown-toggle btn-icon" id="dropdown-all-container">
+                                        <option class="dropdown-item" value="cpu_per">cpu_per</option>
+                                        <option class="dropdown-item" value="mem_per">mem_per</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
-                            <canvas id="chartCpuBig"></canvas>
+                            <canvas id="chartAllContainer"></canvas>
                         </div>
                     </div>
                 </div>
@@ -77,18 +81,6 @@
                         <h3 class="card-title"><i class="tim-icons icon-components text-red"></i>CPU</h3>
                     </div>
                     <div class="card-header">
-                        <!-- <div class="dropdown">
-                            <button type="button" class="btn btn-link dropdown-toggle btn-icon"
-                                data-toggle="dropdown">
-                                <i class="tim-icons icon-settings-gear-63"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right"
-                                aria-labelledby="dropdownMenuLink">
-                                {% for container in qs %}
-                                <div class="dropdown-item" data-value="{{container}}">{{container.name}}</div>
-                                {% endfor %}
-                            </div>
-                        </div> -->
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
@@ -104,18 +96,6 @@
                         <h3 class="card-title"><i class="tim-icons icon-mobile text-success"></i>MEM</h3>
                     </div>
                     <div class="card-header ">
-                        <!-- <div class="dropdown">
-                            <button type="button" class="btn btn-link dropdown-toggle btn-icon"
-                                data-toggle="dropdown">
-                                <i class="tim-icons icon-settings-gear-63"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right"
-                                aria-labelledby="dropdownMenuLink">
-                                {% for container in qs %}
-                                <div class="dropdown-item" data-value="{{container}}">{{container.name}}</div>
-                                {% endfor %}
-                            </div>
-                        </div> -->
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
@@ -133,13 +113,14 @@
                         <h3 class="card-title"><i class="tim-icons icon-components text-red"></i> CPU</h3>
                     </div>
                     <div class="card-header">
-                        <div class="ui selection dropdown" id="cpu-per-container">
-                        <!-- <button type="selection button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
+                        <div class="ui selection dropdown" id="div-cpu-per-container">
+                            <!-- <button type="selection button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
                             <i class="tim-icons icon-settings-gear-63"></i>
                         </button> -->
-                            <select class="btn btn-link dropdown-toggle btn-icon"  id="container-data-box"></select>
+                            <select class="btn btn-link dropdown-toggle btn-icon"
+                                id="dropdown-cpu-per-container"></select>
                             <!-- <div class="dropdown-menu dropdown-menu-right" id="container-data-box"></div> -->
-                            
+
                         </div>
                     </div>
                     <div class="card-body">
@@ -156,15 +137,9 @@
                         <h3 class="card-title"><i class="tim-icons icon-mobile text-success"></i> MEM</h3>
                     </div>
                     <div class="card-header ">
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
-                                <i class="tim-icons icon-settings-gear-63"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                {% for container in qs %}
-                                <div class="dropdown-item" data-value="{{container}}">{{container.name}}</div>
-                                {% endfor %}
-                            </div>
+                        <div class="ui selection dropdown" id="div-mem-per-container">
+                            <select class="btn btn-link dropdown-toggle btn-icon"
+                                id="dropdown-mem-per-container"></select>
                         </div>
                     </div>
                     <div class="card-body">
@@ -181,15 +156,9 @@
                         <h3 class="card-title"><i class="tim-icons icon-world text-yelow"></i>NET</h3>
                     </div>
                     <div class="card-header ">
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
-                                <i class="tim-icons icon-settings-gear-63"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                {% for container in qs %}
-                                <div class="dropdown-item" data-value="{{container}}">{{container.name}}</div>
-                                {% endfor %}
-                            </div>
+                        <div class="ui selection dropdown" id="div-net-per-container">
+                            <select class="btn btn-link dropdown-toggle btn-icon"
+                                id="dropdown-net-per-container"></select>
                         </div>
                     </div>
                     <div class="card-body">
@@ -206,15 +175,9 @@
                         <h3 class="card-title"><i class="tim-icons icon-chart-pie-36 text-orange"></i>USED MEM</h3>
                     </div>
                     <div class="card-header ">
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
-                                <i class="tim-icons icon-settings-gear-63"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                {% for container in qs %}
-                                <div class="dropdown-item" data-value="{{container}}">{{container.name}}</div>
-                                {% endfor %}
-                            </div>
+                        <div class="ui selection dropdown" id="div-used-mem-per-container">
+                            <select class="btn btn-link dropdown-toggle btn-icon"
+                                id="dropdown-used-mem-per-container"></select>
                         </div>
                     </div>
                     <div class="card-body">
@@ -231,18 +194,6 @@
                         <h3 class="card-title"><i class="tim-icons icon-chart-pie-36 text-info"></i>DISK</h3>
                     </div>
                     <div class="card-header ">
-                        <!-- <div class="dropdown">
-                            <button type="button" class="btn btn-link dropdown-toggle btn-icon"
-                                data-toggle="dropdown">
-                                <i class="tim-icons icon-settings-gear-63"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right"
-                                aria-labelledby="dropdownMenuLink">
-                                {% for container in qs %}
-                                <div class="dropdown-item" data-value="{{container}}">{{container.name}}</div>
-                                {% endfor %}
-                            </div>
-                        </div> -->
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
@@ -258,20 +209,5 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'js/func.js' %}"></script>
 <script src="{% static 'js/semantic.js' %}"></script>
-
-
-<script>
-    window.onload = function (e) {
-        consumo_de_cpu_all("{% url 'getHistoryAllContainer' 'cpu_per' %}")
-        consumo_de_cpu_per_container("{% url 'getHistoryContainer' 'fkcp-logstash' 'cpu_per' %}")
-        consumo_de_mem_per_container("{% url 'getHistoryContainer' 'fkcp-logstash' 'mem_per' %}")
-        consumo_de_disk_per_container("{% url 'getServer' 'disk_per' %}")
-        consumo_de_net_per_container("{% url 'getContainer' 'fkcp-logstash' 'net_rx' %}")
-        memUsedPerContainer("{% url 'getContainer' 'fkcp-logstash' 'mem_used' %}")
-        consumo_de_cpu_server("{% url 'getServer' 'cpu_per' %}")
-        consumo_de_mem_server("{% url 'getServer' 'mem_per' %}")
-    }
-
-</script>
 
 {% endblock %}

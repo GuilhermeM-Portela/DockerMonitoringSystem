@@ -13,7 +13,8 @@ def home(request):
 
 def getListContainer(request):
     qs = list(Container.objects.values())
-    return JsonResponse({'data':qs})
+    if request.method == "GET":
+        return JsonResponse({'data':qs})
 
 def getHistoryContainer(request, name, atribute):
     data = []
@@ -58,3 +59,5 @@ def getContainer(request, name, atribute):
                 data_json.update({'data':(i.net_rx, i.net_tx)})
         
     return JsonResponse(data_json)
+
+#x.sort(key=lambda x: x[1], reverse=True)
