@@ -1,7 +1,7 @@
 # django_celery/celery.py
 import os
 from celery import Celery
-from core.getMetric.metricManager import updateAll
+from core.getMetric.metricManager import deleteDataBase, updateAll
 
 
 
@@ -13,3 +13,7 @@ app.autodiscover_tasks()
 @app.task( bind =True)
 def colectAllMetric( self ):
     updateAll()
+
+@app.task( bind =True)
+def cleanDataBase( self ):
+    deleteDataBase()

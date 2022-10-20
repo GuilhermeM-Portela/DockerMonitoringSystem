@@ -23,16 +23,16 @@ def getHistoryContainer(request, name, atribute):
         cpu = list(Container.history.filter(name=i).values_list(atribute)[:20])
         data = list(zip(*cpu))
     if request.method == "GET":
-        return JsonResponse({'data': data})
+        return JsonResponse({'data': list(data[0][::-1])})
 
 def getServer(request, atribute):
     data = []
     containers = Server.objects.filter(name="Ubuntu")
     for i in containers:
-        par = list(Server.history.filter(name=i).values_list(atribute)[:20])
-        data = list(zip(*par))
+        server = list(Server.history.filter(name=i).values_list(atribute)[:20])
+        data = list(zip(*server))
     if request.method == "GET":
-        return JsonResponse({'data': data})
+        return JsonResponse({'data': list(data[0][::-1])})
 
 def getHistoryAllContainer(request, atribute):
     data = []
@@ -42,7 +42,7 @@ def getHistoryAllContainer(request, atribute):
         cpu = list(Container.history.filter(name=i).values_list(atribute)[:60])
         data = list(zip(*cpu))
         json.dumps(data)
-        data_json.update({i.name:data})
+        data_json.update({i.name:list(data[0][::-1])})
     if request.method == "GET":
         return JsonResponse(data_json)
 
@@ -59,5 +59,3 @@ def getContainer(request, name, atribute):
                 data_json.update({'data':(i.net_rx, i.net_tx)})
         
     return JsonResponse(data_json)
-
-#x.sort(key=lambda x: x[1], reverse=True)

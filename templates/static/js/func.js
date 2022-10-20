@@ -6,7 +6,7 @@ const dropdownUsedMemElement = document.getElementById('dropdown-used-mem-per-co
 const dropdownAllContainerElement = document.getElementById('dropdown-all-container')
 chartColors = ['rgb(250,12,69)','rgb(250, 119, 4)','rgb(240,238,5)','rgb(66,134,121)','rgb(29,140,248)','rgb(153, 102, 255)','rgb(231,233,237)','rgb(40,247,149)','rgb(15,209,214)','rgb(250,0,242)']
 
-var chart_labels_20s = ['20', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0'];
+var chart_labels_20s = ['20', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0'];
 var chart_labels_60s = ['60', '', '', '', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '0' ];
 $.ajax({
   type: 'GET',
@@ -459,7 +459,8 @@ var getData = function() {
     // Cpu do servidor
     url: '/getServer/cpu_per',
     success: function(data) {
-    var chart_data = data.data[0];
+      console.log(data)
+    var chart_data = data.data;
     ChartCpuSever.data.datasets[0].data = chart_data;
     ChartCpuSever.update();
     } 
@@ -468,7 +469,7 @@ var getData = function() {
     // Mem do servidor
     url: '/getServer/mem_per',
     success: function(data) {
-    var chart_data = data.data[0];
+    var chart_data = data.data;
     ChartMemServer.data.datasets[0].data = chart_data;
     ChartMemServer.update();
     } 
@@ -477,7 +478,7 @@ var getData = function() {
     // Disk do servidor
     url: '/getServer/disk_per',
     success: function(data) {
-    var chart_data = data.data[0];
+    var chart_data = data.data;
     ChartDisk.data.datasets[0].data = chart_data;
     ChartDisk.update();
     } 
@@ -486,7 +487,7 @@ var getData = function() {
     // Cpu per container
     url: `/getHistoryContainer/${dropdownCpuPerContainer}/cpu_per`,
     success: function(data) {
-    var chart_data = data.data[0];
+    var chart_data = data.data;
     ChartCpu.data.datasets[0].data = chart_data;
     ChartCpu.data.datasets[0].label = dropdownCpuPerContainer
     ChartCpu.update();
@@ -496,7 +497,7 @@ var getData = function() {
     // Mem per container
     url: `/getHistoryContainer/${dropdownMemPerContainer}/mem_per`,
     success: function(data) {
-    var chart_data = data.data[0];
+    var chart_data = data.data;
     ChartMem.data.datasets[0].data = chart_data;
     ChartMem.data.datasets[0].label = dropdownMemPerContainer
     ChartMem.update();
@@ -543,7 +544,7 @@ var getData = function() {
         pointHoverRadius: 2,
         pointHoverBorderWidth: 15,
         pointRadius: 2,
-        data:data[element][0],
+        data:data[element],
       }
       ChartAllContainer.data.datasets[index] = dataset
     })

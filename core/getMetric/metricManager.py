@@ -86,22 +86,22 @@ def __calculate_mem_percent(data):
 
 def __calculate_network_received(data):
     net_bytes = float(data['networks']['eth0']['rx_bytes'])
-    net_rx = convert_size(net_bytes)
+    net_rx = net_bytes
     return net_rx
 
 def __calculate_network_transmitted(data):
     net_bytes = float(data['networks']['eth0']['tx_bytes'])
-    net_tx = convert_size(net_bytes)
+    net_tx = net_bytes
     return net_tx
 
 def __calculate_memory_used(data):
     mem_bytes = float(data['memory_stats']['usage'])
-    mem_total_usage = convert_size(mem_bytes)
+    mem_total_usage = mem_bytes
     return mem_total_usage
 
 def __calculate_memory_limit(data):
     mem_bytes = float(data['memory_stats']['limit'])
-    mem_limit = convert_size(mem_bytes)
+    mem_limit = mem_bytes
     return mem_limit
 
 def convert_size(size_bytes):
@@ -194,6 +194,12 @@ def updateContainer():
 def updateServer():
     server = getMetricServer()
     updateRow("Server","Ubuntu", server)
+
+def deleteDataBase():
+    Server.objects.all().delete()
+    Server.history.all().delete()
+    Container.objects.all().delete()
+    Container.history.all().delete()
 
 def updateAll():
     updateContainer()
