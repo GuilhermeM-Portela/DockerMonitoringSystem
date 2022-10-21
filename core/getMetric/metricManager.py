@@ -87,25 +87,25 @@ def __calculate_mem_percent(data):
 def __calculate_network_received(data):
     net_bytes = float(data['networks']['eth0']['rx_bytes'])
     net_kb = math.pow(1024, 1)
-    net_rx = round(net_kb / net_bytes, 2)
+    net_rx = round(net_bytes / net_kb, 2)
     return net_rx
 
 def __calculate_network_transmitted(data):
     net_bytes = float(data['networks']['eth0']['tx_bytes'])
     net_kb = math.pow(1024, 1)
-    net_tx = round(net_kb / net_bytes, 2)
+    net_tx = round(net_bytes /net_kb , 2)
     return net_tx
 
 def __calculate_memory_used(data):
     mem_bytes = float(data['memory_stats']['usage'])
     mem_mb = math.pow(1024, 2)
-    mem_total_usage = round(mem_mb / mem_bytes, 2)
+    mem_total_usage = round(mem_bytes / mem_mb , 2)
     return mem_total_usage
 
 def __calculate_memory_limit(data):
     mem_bytes = float(data['memory_stats']['limit'])
     mem_mb = math.pow(1024, 2)
-    mem_limit = round(mem_mb / mem_bytes, 2)
+    mem_limit = round(mem_bytes / mem_mb , 2)
     return mem_limit
 
 def convert_size(size_bytes):
@@ -118,15 +118,15 @@ def convert_size(size_bytes):
    return "%s %s" % (s, size_name[i])
 
 def calculate_cpu_total():
-    cpu_total = str(psutil.cpu_percent())
+    cpu_total = str(round(psutil.cpu_percent(),2))
     return cpu_total
 
 def calculate_memory_total():
-    mem_total = str(psutil.virtual_memory()[2])
+    mem_total = str(round(psutil.virtual_memory()[2],2))
     return mem_total
 
 def calculate_disco_total():
-    disk_total = str(psutil.disk_usage('/')[3])
+    disk_total = str(round(psutil.disk_usage('/')[3],2))
     return disk_total
 
 def getMetricServer():
@@ -159,7 +159,7 @@ def createRow(selector, name, row):
 
 def updateRow(selector, name, row):
     if selector == "Container":
-        if Container.objects.filter(name=name):
+        if  Container.objects.filter(name=name):
             container = Container.objects.get(name=name)
             container.status = row["status"]
             container.cpu_per = row["cpu_per"]
@@ -193,6 +193,7 @@ def updateContainer():
     containers = get_metrics()
     for container in containers:
         for i in container:
+            print(i, container[i])
             updateRow("Container", i, container[i])
 
 def updateServer():

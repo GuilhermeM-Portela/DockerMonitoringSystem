@@ -166,11 +166,14 @@ scales: {
   y: {
       ticks: {
           // Include a dollar sign in the ticks
-          callback: function(value, index, ticks) {
-              return value + '%';
+          callback: function(value) {
+              return value.toFixed(2) + '%';
           }
       }
   }
+},
+animation: {
+  duration: 0
 }
 };
 
@@ -304,7 +307,7 @@ gradientPieChartConfiguration = {
                 label += ': ';
             }
             if (context.parsed.y !== null) {
-                label += context.parsed + 'Kb'
+                label += context.parsed + 'Mb'
             }
             return label;
         }
@@ -348,7 +351,7 @@ const ChartCpuSever = new Chart(ctxCpuSever, {
     datasets: [{
       label: "Ubuntu",
       fill: true,
-      tension: 0.4,
+      tension: 0.0,
       backgroundColor: gradientStrokeCpuSever,
       borderColor: '#FA1701',
       borderWidth: 1,
@@ -360,7 +363,7 @@ const ChartCpuSever = new Chart(ctxCpuSever, {
       pointBorderWidth: 20,
       pointHoverRadius: 1,
       pointHoverBorderWidth: 15,
-      pointRadius: 2,
+      pointRadius: 1.5,
       data: [],
     }]
   },
@@ -380,7 +383,7 @@ const ChartMemServer = new Chart(ctxMemServer, {
     datasets: [{
       label: "Ubuntu",
       fill: true,
-      tension: 0.4,
+      tension: 0.0,
       backgroundColor: gradientStrokeMemServer,
       borderColor: '#00d6b4',
       borderWidth: 1,
@@ -392,7 +395,7 @@ const ChartMemServer = new Chart(ctxMemServer, {
       pointBorderWidth: 20,
       pointHoverRadius: 2,
       pointHoverBorderWidth: 15,
-      pointRadius: 2,
+      pointRadius: 1.5,
       data:[],
     }]
   },
@@ -412,7 +415,7 @@ const ChartDisk = new Chart(ctxDisk, {
     datasets: [{
       label: "Ubuntu",
       fill: true,
-      tension: 0.4,
+      tension: 0.0,
       backgroundColor: gradientStrokeDisk,
       borderColor: '#1f8ef1',
       borderWidth: 1,
@@ -424,7 +427,7 @@ const ChartDisk = new Chart(ctxDisk, {
       pointBorderWidth: 20,
       pointHoverRadius: 2,
       pointHoverBorderWidth: 15,
-      pointRadius: 2,
+      pointRadius: 1.5,
       data: [],
     }]
   },
@@ -445,7 +448,7 @@ const ChartDisk = new Chart(ctxDisk, {
         datasets: [{
           label: [],
           fill: true,
-          tension: 0.4,
+          tension: 0.0,
           backgroundColor: gradientStrokeCpu,
           borderColor: '#FA1701',
           borderWidth: 1,
@@ -457,7 +460,7 @@ const ChartDisk = new Chart(ctxDisk, {
           pointBorderWidth: 20,
           pointHoverRadius: 1,
           pointHoverBorderWidth: 15,
-          pointRadius: 2,
+          pointRadius: 1.5,
           data: [],
         }]
       },
@@ -478,7 +481,7 @@ const ChartDisk = new Chart(ctxDisk, {
         datasets: [{
           label: [],
           fill: true,
-          tension: 0.4,
+          tension: 0.0,
           backgroundColor: gradientStrokeMem,
           borderColor: '#00d6b4',
           borderWidth: 1,
@@ -490,7 +493,7 @@ const ChartDisk = new Chart(ctxDisk, {
           pointBorderWidth: 20,
           pointHoverRadius: 2,
           pointHoverBorderWidth: 15,
-          pointRadius: 2,
+          pointRadius: 1.5,
           data: [],
         }]
       },
@@ -512,7 +515,7 @@ const ChartDisk = new Chart(ctxDisk, {
         datasets: [{
           label: [],
           fill: true,
-          tension: 0.4,
+          tension: 0.0,
           backgroundColor: gradientStrokeNet,
           borderColor: '#F0EE05',
           borderWidth: 1,
@@ -524,7 +527,7 @@ const ChartDisk = new Chart(ctxDisk, {
           pointBorderWidth: 20,
           pointHoverRadius: 2,
           pointHoverBorderWidth: 15,
-          pointRadius: 2,
+          pointRadius: 1.5,
           data: [],
         }]
       },
@@ -548,7 +551,7 @@ const ChartDisk = new Chart(ctxDisk, {
         datasets: [{
           label: [],
           fill: true,
-          tension: 0.4,
+          tension: 0.0,
           backgroundColor: [gradientStrokeUsedMem1,gradientStrokeUsedMem2],
           borderColor: "#FA9000",
           borderWidth: 1,
@@ -560,7 +563,7 @@ const ChartDisk = new Chart(ctxDisk, {
           pointBorderWidth: 20,
           pointHoverRadius: 2,
           pointHoverBorderWidth: 15,
-          pointRadius: 2,
+          pointRadius: 1.5,
           data: [],
         }]
       },
@@ -608,6 +611,7 @@ var getData = function() {
     url: `/getHistoryContainer/${dropdownCpuPerContainer}/cpu_per`,
     success: function(data) {
     var chart_data = data.data;
+    console.log(chart_data)
     ChartCpu.data.datasets[0].data = chart_data;
     ChartCpu.data.datasets[0].label = dropdownCpuPerContainer
     ChartCpu.update();
@@ -651,7 +655,7 @@ var getData = function() {
       var dataset = {
         label: element,
         fill: false,
-        tension: 0.2,
+        tension: 0.0,
         backgroundColor: chartColors[index],
         borderColor: chartColors[index],
         borderWidth: 1,
@@ -663,7 +667,7 @@ var getData = function() {
         pointBorderWidth: 20,
         pointHoverRadius: 2,
         pointHoverBorderWidth: 15,
-        pointRadius: 2,
+        pointRadius: 1.5,
         data:data[element],
       }
       ChartAllContainer.data.datasets[index] = dataset
