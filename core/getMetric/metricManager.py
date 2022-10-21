@@ -86,22 +86,26 @@ def __calculate_mem_percent(data):
 
 def __calculate_network_received(data):
     net_bytes = float(data['networks']['eth0']['rx_bytes'])
-    net_rx = net_bytes
+    net_kb = math.pow(1024, 1)
+    net_rx = round(net_kb / net_bytes, 2)
     return net_rx
 
 def __calculate_network_transmitted(data):
     net_bytes = float(data['networks']['eth0']['tx_bytes'])
-    net_tx = net_bytes
+    net_kb = math.pow(1024, 1)
+    net_tx = round(net_kb / net_bytes, 2)
     return net_tx
 
 def __calculate_memory_used(data):
     mem_bytes = float(data['memory_stats']['usage'])
-    mem_total_usage = mem_bytes
+    mem_mb = math.pow(1024, 2)
+    mem_total_usage = round(mem_mb / mem_bytes, 2)
     return mem_total_usage
 
 def __calculate_memory_limit(data):
     mem_bytes = float(data['memory_stats']['limit'])
-    mem_limit = mem_bytes
+    mem_mb = math.pow(1024, 2)
+    mem_limit = round(mem_mb / mem_bytes, 2)
     return mem_limit
 
 def convert_size(size_bytes):

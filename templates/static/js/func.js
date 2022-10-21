@@ -6,8 +6,8 @@ const dropdownUsedMemElement = document.getElementById('dropdown-used-mem-per-co
 const dropdownAllContainerElement = document.getElementById('dropdown-all-container')
 chartColors = ['rgb(250,12,69)','rgb(250, 119, 4)','rgb(240,238,5)','rgb(66,134,121)','rgb(29,140,248)','rgb(153, 102, 255)','rgb(231,233,237)','rgb(40,247,149)','rgb(15,209,214)','rgb(250,0,242)']
 
-var chart_labels_20s = ['20', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0'];
-var chart_labels_60s = ['60', '', '', '', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '0' ];
+var chart_labels_20s = ['20s', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0'];
+var chart_labels_60s = ['60s', '', '', '', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '0' ];
 $.ajax({
   type: 'GET',
   url: '/getListContainer/',
@@ -144,7 +144,34 @@ gradientChartOptionsConfiguration = {
       top: 0,
       bottom: 0
     }
+  },
+  plugins: {
+    tooltip: {
+        callbacks: {
+            label: function(context) {
+                let label = context.dataset.label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                    label += context.parsed.y + '%'
+                }
+                return label;
+            }
+        }
+    }
+},
+scales: {
+  y: {
+      ticks: {
+          // Include a dollar sign in the ticks
+          callback: function(value, index, ticks) {
+              return value + '%';
+          }
+      }
   }
+}
 };
 
 gradientBarChartConfiguration = {
@@ -192,6 +219,102 @@ gradientBarChartConfiguration = {
         fontColor: "#9e9e9e"
       }
     }]
+  },
+  plugins: {
+    tooltip: {
+        callbacks: {
+            label: function(context) {
+                let label = context.dataset.label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                    label += context.parsed.y + 'Kb'
+                }
+                return label;
+            }
+        }
+    }
+},
+  scales: {
+    y: {
+        ticks: {
+            // Include a dollar sign in the ticks
+            callback: function(value, index, ticks) {
+                return value + 'Kb';
+            }
+        }
+    }
+  }
+};
+gradientPieChartConfiguration = {
+  maintainAspectRatio: false,
+  legend: {
+    display: false
+  },
+
+  tooltips: {
+    backgroundColor: '#f5f5f5',
+    titleFontColor: '#333',
+    bodyFontColor: '#666',
+    bodySpacing: 6,
+    xPadding: 12,
+    mode: "nearest",
+    intersect: 0,
+    position: "nearest"
+  },
+  responsive: true,
+  scales: {
+    yAxes: [{
+
+      gridLines: {
+        drawBorder: true,
+        color: 'rgba(29,140,248,0.1)',
+        zeroLineColor: "transparent",
+      },
+      ticks: {
+        suggestedMin: 60,
+        suggestedMax: 120,
+        padding: 20,
+        fontColor: "#9e9e9e"
+      }
+    }],
+
+    xAxes: [{
+
+      gridLines: {
+        drawBorder: true,
+        color: 'rgba(29,140,248,0.1)',
+        zeroLineColor: "transparent",
+      },
+      ticks: {
+        padding: 20,
+        fontColor: "#9e9e9e"
+      }
+    }]
+  },
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: function(context) {
+            let label = context.dataset.label || '';
+
+            if (label) {
+                label += ': ';
+            }
+            if (context.parsed.y !== null) {
+                label += context.parsed + 'Kb'
+            }
+            return label;
+        }
+    }
+    }
+},
+  scales: {
+    y: {
+      display: false,
+   }
   }
 };
 
@@ -441,10 +564,8 @@ const ChartDisk = new Chart(ctxDisk, {
           data: [],
         }]
       },
-      options: gradientBarChartConfiguration
+      options: gradientPieChartConfiguration
     });
-
-
 
 
 
@@ -453,13 +574,12 @@ var getData = function() {
   var dropdownMemPerContainer = dropdownMemElement.options[dropdownMemElement.selectedIndex].text
   var dropdownNetPerContainer = dropdownNetElement.options[dropdownNetElement.selectedIndex].text
   var dropdownUsedMemPerContainer = dropdownUsedMemElement.options[dropdownUsedMemElement.selectedIndex].text
-  var dropdownAllContainer = dropdownAllContainerElement.options[dropdownAllContainerElement.selectedIndex].text
+  var dropdownAllContainer = dropdownAllContainerElement.options[dropdownAllContainerElement.selectedIndex].value
 
   $.ajax({
     // Cpu do servidor
     url: '/getServer/cpu_per',
     success: function(data) {
-      console.log(data)
     var chart_data = data.data;
     ChartCpuSever.data.datasets[0].data = chart_data;
     ChartCpuSever.update();
@@ -517,7 +637,7 @@ var getData = function() {
     // Used Mem per container
     url: `/getContainer/${dropdownUsedMemPerContainer}/mem_used`,
     success: function(data) {
-    var chart_data = [data.data[1], data.data[0]];
+    var chart_data = [data.data[0], data.data[1]];
     ChartUsedMem.data.datasets[0].data = chart_data;
     ChartUsedMem.data.datasets[0].label = dropdownUsedMemPerContainer
     ChartUsedMem.update();

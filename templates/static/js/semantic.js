@@ -1,4 +1,0 @@
-// $('.dropdown').dropdown({
-//     forceSelection:false
-
-// });

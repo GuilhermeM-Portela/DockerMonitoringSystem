@@ -57,5 +57,4 @@ def getContainer(request, name, atribute):
             container= Container.objects.filter(name=name)
             for i in container:
                 data_json.update({'data':(i.net_rx, i.net_tx)})
-        
     return JsonResponse(data_json)
