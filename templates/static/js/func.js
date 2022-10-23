@@ -172,9 +172,9 @@ scales: {
       }
   }
 },
-animation: {
-  duration: 0
-}
+// animation: {
+//   duration: 0
+// }
 };
 
 gradientBarChartConfiguration = {
@@ -321,23 +321,46 @@ gradientPieChartConfiguration = {
   }
 };
 
-
   const ctxAllContainer = document.getElementById('chartAllContainer').getContext('2d');
-  var gradientStroke = ctxAllContainer.createLinearGradient(0, 230, 0, 50);
-  gradientStroke.addColorStop(1, 'rgba(250,72,176,0.1)');
-  gradientStroke.addColorStop(0.4, 'rgba(250,12,76,0.0)');
-  gradientStroke.addColorStop(0, 'rgba(250,12,69,0)'); //red colors
+  let datasets = []
   const ChartAllContainer = new Chart(ctxAllContainer, {
       type: 'line',
       data: {
           labels: chart_labels_60s,
-          datasets: []
+          datasets: datasets
       },
       options: gradientChartOptionsConfiguration
   });
-      
 
-
+$.ajax({
+  // All container
+  url: `/getHistoryAllContainer/cpu_per`,
+  success: function(data) {
+  
+  Object.keys(data).forEach((element,index)=>{
+    datasets.push({
+      label: element,
+      fill: false,
+      tension: 0.0,
+      backgroundColor: chartColors[index],
+      borderColor: chartColors[index],
+      borderWidth: 1,
+      borderDash: [],
+      borderDashOffset: 0.0,
+      pointBackgroundColor: chartColors[index],
+      pointBorderColor: 'rgba(255,255,255,0)',
+      pointHoverBackgroundColor: chartColors[index],
+      pointBorderWidth: 20,
+      pointHoverRadius: 2,
+      pointHoverBorderWidth: 15,
+      pointRadius: 1.5,
+      data: [],
+    })
+  })
+  ChartAllContainer.update();
+  }
+});
+  
 // Grafico de CPU por server
 const ctxCpuSever = document.getElementById('chartCpuServer').getContext('2d');
 var gradientStrokeCpuSever = ctxCpuSever.createLinearGradient(0, 230, 0, 50);
@@ -611,7 +634,6 @@ var getData = function() {
     url: `/getHistoryContainer/${dropdownCpuPerContainer}/cpu_per`,
     success: function(data) {
     var chart_data = data.data;
-    console.log(chart_data)
     ChartCpu.data.datasets[0].data = chart_data;
     ChartCpu.data.datasets[0].label = dropdownCpuPerContainer
     ChartCpu.update();
@@ -652,25 +674,8 @@ var getData = function() {
     url: `/getHistoryAllContainer/${dropdownAllContainer}`,
     success: function(data) {
     Object.keys(data).forEach((element,index)=>{
-      var dataset = {
-        label: element,
-        fill: false,
-        tension: 0.0,
-        backgroundColor: chartColors[index],
-        borderColor: chartColors[index],
-        borderWidth: 1,
-        borderDash: [],
-        borderDashOffset: 0.0,
-        pointBackgroundColor: chartColors[index],
-        pointBorderColor: 'rgba(255,255,255,0)',
-        pointHoverBackgroundColor: chartColors[index],
-        pointBorderWidth: 20,
-        pointHoverRadius: 2,
-        pointHoverBorderWidth: 15,
-        pointRadius: 1.5,
-        data:data[element],
-      }
-      ChartAllContainer.data.datasets[index] = dataset
+      var chart_data = data[element];
+      ChartAllContainer.data.datasets[index].data = chart_data
     })
     ChartAllContainer.update();
     }

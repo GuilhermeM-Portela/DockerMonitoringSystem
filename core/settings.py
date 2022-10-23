@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "dockermon",
     "simple_history",
     'django_celery_beat',
+    'wkhtmltopdf',
 ]
 
 MIDDLEWARE = [
