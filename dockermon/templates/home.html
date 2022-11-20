@@ -44,9 +44,9 @@
             <h2 class="card-title">SMC</h2>
         </div>
     </div>
-    <button type="button" class="btn btn-dark">Report</button>
+    <button id="print" type="button" class="btn btn-dark">Report</button>
 </nav>
-<div class="row-10">
+<div class="row-10" id="content">
     <div class="col">
         <div class="row">
             <div class="col-7">
@@ -117,7 +117,7 @@
                             <!-- <button type="selection button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
                             <i class="tim-icons icon-settings-gear-63"></i>
                         </button> -->
-                            <select class="btn btn-link dropdown-toggle "id="dropdown-cpu-per-container"></select>
+                            <select class="btn btn-link dropdown-toggle " id="dropdown-cpu-per-container"></select>
                             <!-- <div class="dropdown-menu dropdown-menu-right" id="dropdown-cpu-per-container"></div> -->
 
                         </div>
@@ -137,8 +137,7 @@
                     </div>
                     <div class="card-header ">
                         <div class="ui selection dropdown" id="div-mem-per-container">
-                            <select class="btn btn-link dropdown-toggle"
-                                id="dropdown-mem-per-container"></select>
+                            <select class="btn btn-link dropdown-toggle" id="dropdown-mem-per-container"></select>
                         </div>
                     </div>
                     <div class="card-body">
@@ -156,8 +155,7 @@
                     </div>
                     <div class="card-header ">
                         <div class="ui selection dropdown" id="div-net-per-container">
-                            <select class="btn btn-link dropdown-toggle "
-                                id="dropdown-net-per-container"></select>
+                            <select class="btn btn-link dropdown-toggle " id="dropdown-net-per-container"></select>
                         </div>
                     </div>
                     <div class="card-body">
@@ -175,8 +173,7 @@
                     </div>
                     <div class="card-header ">
                         <div class="ui selection dropdown" id="div-used-mem-per-container">
-                            <select class="btn btn-link dropdown-toggle "
-                                id="dropdown-used-mem-per-container"></select>
+                            <select class="btn btn-link dropdown-toggle " id="dropdown-used-mem-per-container"></select>
                         </div>
                     </div>
                     <div class="card-body">
@@ -207,5 +204,8 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'js/func.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+
 
 {% endblock %}

@@ -1,10 +1,10 @@
-
 const dropdownCpuElement = document.getElementById('dropdown-cpu-per-container')
 const dropdownMemElement = document.getElementById('dropdown-mem-per-container')
 const dropdownNetElement = document.getElementById('dropdown-net-per-container')
 const dropdownUsedMemElement = document.getElementById('dropdown-used-mem-per-container')
 const dropdownAllContainerElement = document.getElementById('dropdown-all-container')
 chartColors = ['rgb(250,12,69)','rgb(250, 119, 4)','rgb(240,238,5)','rgb(66,134,121)','rgb(29,140,248)','rgb(153, 102, 255)','rgb(231,233,237)','rgb(40,247,149)','rgb(15,209,214)','rgb(250,0,242)']
+
 
 var chart_labels_20s = ['20s', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0'];
 var chart_labels_60s = ['60s', '', '', '', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '', '', '','','', '', '', '', '', '', '0' ];
@@ -172,9 +172,9 @@ scales: {
       }
   }
 },
-// animation: {
-//   duration: 0
-// }
+animation: {
+  duration: 0
+}
 };
 
 gradientBarChartConfiguration = {
@@ -675,6 +675,7 @@ var getData = function() {
     success: function(data) {
     Object.keys(data).forEach((element,index)=>{
       var chart_data = data[element];
+      // console.log(data[element])
       ChartAllContainer.data.datasets[index].data = chart_data
     })
     ChartAllContainer.update();
@@ -682,6 +683,22 @@ var getData = function() {
   });
 
 };
+
+$('#print').click(function() {
+
+  var w = document.getElementById("content").offsetWidth;
+  var h = document.getElementById("content").offsetHeight;
+  html2canvas(document.getElementById("content"), {
+    dpi: 300, // Set to 300 DPI
+    scale: 0, // Adjusts your resolution
+    onrendered: function(canvas) {
+      var img = canvas.toDataURL("image/jpeg", 1);
+      var doc = new jsPDF('L', 'px', [w, h]);
+      doc.addImage(img, 'JPEG', 0, 0, w, h);
+      doc.save('Smc-Report.pdf');
+    }
+  });
+});
 
 
 setInterval(getData, 1000);
